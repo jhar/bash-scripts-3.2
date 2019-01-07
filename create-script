@@ -1,0 +1,8 @@
+#!/bin/bash
+
+_BIN="$1"
+_PATH="$HOME/bin/$_BIN"
+ensure-path-dir $_PATH
+echo -e "#!/bin/bash\n\n" > $_PATH
+chmod u+x $_PATH
+vim +3 $_PATH

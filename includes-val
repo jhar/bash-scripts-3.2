@@ -1,0 +1,13 @@
+#!/bin/bash
+
+_ARR=($1)
+_INCL=-1
+
+for (( i=0; i<${#_ARR[@]}; i+=1 )); do
+  if [ "${_ARR[$i]}" == "$2" ]; then
+    _INCL=$i
+    break
+  fi
+done
+
+echo $_INCL

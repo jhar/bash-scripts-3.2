@@ -1,0 +1,24 @@
+#!/bin/bash
+
+_FLAGS="-N -p -t"
+_FLAGGED=($(flag-args "$*" "$_FLAGS"))
+_NAME="${_FLAGGED[0]}"
+_PATH="${_FLAGGED[1]}"
+_TYPE="${_FLAGGED[2]}"
+
+ensure-path-dir $_PATH
+
+
+# Render specified type of component
+if [ "$_TYPE" == "stateless-functional" ]; then
+  _C="import React from 'react'\n\nconst $_NAME = () => {\n return (\n    <div></div>\n  )\n}\n\nexport default $_NAME"
+elif [ "$_TYPE" == "implicit-return" ]; then
+  _C="import React from 'react'\n\nconst $_NAME = () => (\n  <div></div>\n)\n\nexport default $_NAME"
+else
+  _C="import React, { Component } from 'react'\n\nclass $_NAME extends Component {\n  render() {\n    return (\n      <div></div>\n    )\n  }\n}\n\nexport default $_NAME"
+fi
+
+echo -e "$_C" > $_PATH
+echo "Created React Component $_NAME at $_PATH"
+code $_PATH
+

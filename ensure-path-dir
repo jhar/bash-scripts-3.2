@@ -1,0 +1,8 @@
+#!/bin/bash
+
+_DIR=${1%/*}
+
+# Check if all directories exist, otherwise create them
+if ! [ -d "$_DIR" ]; then
+  mkdir -p -v $_DIR
+fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+_ARGS=($1)
+_NUM=${#_ARGS[@]}
+_ERR_1="\nError: Invalid number of arguments."
+
+[[ $(( $_NUM % 2 )) == 0 ]] && [ "$_NUM -gt 0" ] || (echo -e $_ERR_1 && exit 1)
+
+_FLAGS=$2
+_RES=()
+_ERR_2="\nError: Invalid flag encountered: "
+
+for (( i=0; i<$_NUM; i+=2 )); do
+  _I=$(includes-val "$_FLAGS" "${_ARGS[$i]}")
+  _VAL=${_ARGS[$i + 1]}
+  [ "$_I -gt -1" ] && _RES+=($_VAL) || (echo -e "$_ERR_2$VAL" && exit 1)
+done
+
+echo "${_RES[@]}"
+exit 0
+ 
