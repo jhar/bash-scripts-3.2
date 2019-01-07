@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# $1 - path string
+# $2 - home option
+main() {
+  FILE=~/.bash_profile
+  SEGMENT="$1"
+  [ "$2" == "home" ] && SEGMENT="\$HOME$SEGMENT"
+  EXPORT="export PATH=\"$SEGMENT:\$PATH\""
+  echo -e "$EXPORT\n$(cat $FILE)" > $FILE
+  source $FILE
+  echo $PATH
+  exit 0
+}
+
+main "$@"
