@@ -1,11 +1,37 @@
 #!/bin/bash
 
+# TODO: Make all files in /bin relative links
+
+# $1 - script name
+# $2 - script entry
+# $3 - ln to bin name
+pkg() {
+  JSON="{\n  \"name\": \"$1\",\n  \"version\": \"1.0.0\",\n  \"description\": \"\",\n  \"main\": \"$2\",\n  \"author\": \"\",\n  \"license\": \"ISC\",\n  \"bin\": { \"$1\": \"./$3\" }\n}"  
+  echo -e "$JSON" > package.json
+}
+
+# $1 - script name
+# $2 - she bang
+create_node() {
+  PKG="$HOME/Development/Node/$1"
+  MAIN="index.js"
+  LN="cli.js"
+  ensure-path-dir "$PKG/$MAIN"
+  cd $PKG && pkg $1 $MAIN $LN
+  touch $MAIN
+  echo -e  "$2\n\n" > $LN
+  chmod u+x $LN
+  sudo npm link
+  code $LN
+}
+
 # $1 - script path
 # $2 - she bang
-create_type() {
+create_bash() {
   ensure-path-dir $1
   echo -e "$2\n\n" > $1
-  chmod u+x #1
+  write "$2\n\n" > $1
+  chmod u+x $1
   vim +3 $1
 }
 
@@ -13,10 +39,10 @@ create_type() {
 # $2 - script name
 main() {
   ( [ "$1" == "node" ] &&
-    create_type "$HOME/bin/node/$2" "#!/usr/bin/env node"
+    create_node "$2" "#!/usr/bin/env node" "$BIN/node"
   ) || (
     [ "$1" == "bash" ] &&
-    create_type "$HOME/bin/$2" "#!/bin/bash"
+    create_bash "$HOME/bin/$2" "#!/bin/bash"
   )
 }
 
