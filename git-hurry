@@ -1,0 +1,10 @@
+#!/bin/bash
+
+_MSG=$1
+
+# TODO: Error handling
+
+git add .
+git commit -m "$_MSG"
+git push 
+
