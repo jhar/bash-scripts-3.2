@@ -4,7 +4,7 @@
 main() {
   cd "$1"
   rm build.js
-  cp../build.js ./
+  cp ../build.js ./
   zip -r -X "../$1.zip" ./*
   cd ..
   rm -rf "$1"
